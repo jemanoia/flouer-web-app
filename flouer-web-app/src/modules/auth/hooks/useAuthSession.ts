@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import type { Session } from "@supabase/supabase-js";
-import { supabase } from "@/utils/supabase";
+import { supabase, supabaseConfigError } from "@/utils/supabase";
 
 export function useAuthSession() {
   const [session, setSession] = useState<Session | null>(null);
@@ -8,6 +8,12 @@ export function useAuthSession() {
   const [sessionError, setSessionError] = useState("");
 
   useEffect(() => {
+    if (supabaseConfigError) {
+      setSessionError(supabaseConfigError);
+      setIsCheckingSession(false);
+      return;
+    }
+
     const loadSession = async () => {
       const { data, error } = await supabase.auth.getSession();
       if (error) {
