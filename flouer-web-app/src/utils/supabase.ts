@@ -1,7 +1,7 @@
 import { createClient } from "@supabase/supabase-js"
 
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL
-const supabaseKey = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL?.trim()
+const supabaseKey = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY?.trim()
 
 export const supabaseConfigError =
   !supabaseUrl || !supabaseKey
@@ -9,6 +9,6 @@ export const supabaseConfigError =
     : ""
 
 export const supabase = createClient(
-  supabaseUrl ?? "https://example.supabase.co",
-  supabaseKey ?? "missing-publishable-key",
+  supabaseUrl || "https://example.supabase.co",
+  supabaseKey || "missing-publishable-key",
 )
